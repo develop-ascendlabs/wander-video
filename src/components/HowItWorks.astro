@@ -1,0 +1,48 @@
+---
+const steps = [
+  {
+    title: 'Create your route',
+    body: 'Paste a maps link, import GPX, or tap stops on the map.',
+    img: '/images/styles/topographic.png',
+  },
+  {
+    title: 'Choose your style',
+    body: 'Pick a cinematic map look and an animated vehicle.',
+    img: '/images/styles/golden_hour.png',
+  },
+  {
+    title: 'Export your video',
+    body: 'Export for Instagram, TikTok, YouTube — or full 4K.',
+    img: '/images/styles/midnight_drive.png',
+  },
+];
+---
+
+<section class="py-12 md:py-20 bg-surface-muted/60">
+  <div class="container-site">
+    <h2 class="text-center text-3xl font-bold tracking-tight text-ink md:text-4xl">How it works</h2>
+
+    <ol class="mt-12 grid gap-8 md:grid-cols-3 md:gap-6">
+      {steps.map((step, i) => (
+        <li class="relative">
+          {i < steps.length - 1 && (
+            <div
+              class="pointer-events-none absolute top-24 right-0 hidden w-8 translate-x-1/2 border-t-2 border-dashed border-primary/40 md:block lg:w-16"
+              aria-hidden="true"
+            ></div>
+          )}
+          <div class="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
+            <div class="aspect-[4/3] overflow-hidden">
+              <img src={step.img} alt="" class="h-full w-full object-cover" />
+            </div>
+            <div class="p-5">
+              <p class="text-xs font-semibold uppercase tracking-wider text-primary">Step {i + 1}</p>
+              <h3 class="mt-1 text-lg font-bold text-ink">{step.title}</h3>
+              <p class="mt-2 text-sm text-ink-muted">{step.body}</p>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

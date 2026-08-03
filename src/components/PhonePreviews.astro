@@ -1,0 +1,43 @@
+---
+const phones = [
+  { label: 'Projects', img: '/images/styles/nordic.png', caption: 'Your journeys' },
+  { label: 'Route Editor', img: '/images/styles/topographic.png', caption: 'Build the path' },
+  { label: 'Styles', img: '/images/styles/golden_hour.png', caption: 'Pick a look' },
+  { label: 'Preview', img: '/images/styles/satellite.png', caption: 'Watch it move' },
+  { label: 'Export', img: '/images/styles/midnight_drive.png', caption: '1080p or 4K' },
+];
+---
+
+<section class="py-16 md:py-24 overflow-hidden">
+  <div class="container-site">
+    <h2 class="text-center text-3xl font-bold tracking-tight text-ink md:text-4xl">Made for mobile</h2>
+    <p class="mx-auto mt-3 max-w-xl text-center text-ink-muted">
+      From first stop to final export — the full Wander workflow in your pocket.
+    </p>
+
+    <div class="mt-12 flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory md:justify-center md:gap-5 md:overflow-visible">
+      {phones.map((phone) => (
+        <figure class="w-[160px] shrink-0 snap-center sm:w-[180px]">
+          <div class="rounded-[1.75rem] border-[3px] border-ink bg-ink p-1.5 shadow-xl shadow-ink/15">
+            <div class="overflow-hidden rounded-[1.35rem] bg-surface aspect-[9/19]">
+              <div class="relative h-full">
+                <img src={phone.img} alt="" class="h-full w-full object-cover" />
+                <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/70 to-transparent p-3 pt-10">
+                  <p class="text-[10px] font-semibold text-white/90">{phone.caption}</p>
+                </div>
+                {phone.label === 'Export' && (
+                  <div class="absolute inset-x-3 top-10 space-y-1.5 rounded-xl bg-white/95 p-2 text-[9px] font-semibold text-ink shadow">
+                    <div class="flex justify-between"><span>1080p</span><span class="text-primary">✓</span></div>
+                    <div class="flex justify-between text-ink-muted"><span>4K</span><span>Pro</span></div>
+                    <div class="flex justify-between"><span>30 fps</span><span class="text-primary">✓</span></div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+          <figcaption class="mt-3 text-center text-sm font-medium text-ink">{phone.label}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>

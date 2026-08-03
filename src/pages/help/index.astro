@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { site } from '../../config/site';
+---
+
+<BaseLayout
+  title="Help — Wander"
+  description="Get help with Wander. Contact support or browse FAQs."
+>
+  <section class="py-16 md:py-24">
+    <div class="container-site max-w-3xl">
+      <p class="text-sm font-semibold uppercase tracking-wider text-primary">Help</p>
+      <h1 class="mt-2 text-4xl font-bold tracking-tight text-ink">How can we help?</h1>
+      <p class="mt-4 text-lg text-ink-muted leading-relaxed">
+        A full help centre is coming soon. In the meantime, check the FAQ on the homepage or
+        email us directly.
+      </p>
+
+      <div class="mt-10 grid gap-4 sm:grid-cols-2">
+        <a
+          href="/#faq"
+          class="rounded-2xl border border-border bg-surface p-6 hover:border-primary/40 transition-colors"
+        >
+          <h2 class="font-semibold text-ink">FAQ</h2>
+          <p class="mt-2 text-sm text-ink-muted">Common questions about Free, Pro, GPX, and exports.</p>
+        </a>
+        <a
+          href={`mailto:${site.supportEmail}`}
+          class="rounded-2xl border border-border bg-surface p-6 hover:border-primary/40 transition-colors"
+        >
+          <h2 class="font-semibold text-ink">Email support</h2>
+          <p class="mt-2 text-sm text-ink-muted">{site.supportEmail}</p>
+        </a>
+      </div>
+
+      <p class="mt-8">
+        <a href="/" class="text-sm font-semibold text-primary hover:text-primary-dark">← Back to home</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

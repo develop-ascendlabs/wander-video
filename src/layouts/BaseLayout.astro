@@ -1,0 +1,54 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Hide marketing chrome (rare). */
+  bare?: boolean;
+}
+
+const {
+  title = 'Wander — Create beautiful travel videos',
+  description = 'Turn routes into stunning animated travel videos in minutes. Perfect for sharing your adventures.',
+  bare = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#6C5CE7" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" href="/images/app_icon.png" />
+    <link rel="apple-touch-icon" href="/images/app_icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Wander" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/images/subscription_hero.png', Astro.site).href} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL('/images/subscription_hero.png', Astro.site).href} />
+
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen flex flex-col bg-bg text-ink">
+    {!bare && <Header />}
+    <main class="flex-1">
+      <slot />
+    </main>
+    {!bare && <Footer />}
+  </body>
+</html>

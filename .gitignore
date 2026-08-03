@@ -1,0 +1,19 @@
+# Build
+dist/
+.astro/
+.wrangler/
+
+# Dependencies
+node_modules/
+
+# Env / OS
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+
+# Logs / editor
+*.log
+.vscode/
+.idea/

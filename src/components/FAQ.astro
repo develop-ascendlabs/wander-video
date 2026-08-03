@@ -1,0 +1,60 @@
+---
+const faqs = [
+  {
+    q: 'Do I need an account to use Wander?',
+    a: 'You can explore the app right away. An account helps you keep projects safe and unlock Pro purchases across devices.',
+  },
+  {
+    q: 'Can I import GPX files?',
+    a: 'Yes. Import a GPX from your hike, ride, or road trip and Wander will build a route you can style and export.',
+  },
+  {
+    q: 'Which platforms can I share to?',
+    a: 'Export aspect ratios for Instagram Reels, TikTok, YouTube, and landscape video — then share anywhere.',
+  },
+  {
+    q: 'What is included in Wander Free?',
+    a: 'Free includes up to 5 projects, 1080p export with a watermark, two map styles, and three vehicles (car, plane, bicycle).',
+  },
+  {
+    q: 'What do I get with Wander Pro?',
+    a: 'Pro unlocks 4K export, all map styles and vehicles, no watermark, unlimited projects, and early access to new features. £4.99/month or £24.99/year.',
+  },
+  {
+    q: 'Is Wander available on iPhone?',
+    a: 'Wander is on Google Play today. An App Store release is coming soon — watch this space.',
+  },
+  {
+    q: 'Can I paste Google Maps or Apple Maps links?',
+    a: 'Yes. Paste a directions link and Wander will turn it into an editable route.',
+  },
+  {
+    q: 'How do I get help?',
+    a: 'Visit the Help page or email support@wander.video and we’ll get back to you.',
+  },
+];
+---
+
+<section id="faq" class="scroll-mt-20 py-16 md:py-24 bg-surface">
+  <div class="container-site">
+    <h2 class="text-center text-3xl font-bold tracking-tight text-ink md:text-4xl">Frequently asked questions</h2>
+
+    <div class="mx-auto mt-12 grid max-w-5xl gap-4 md:grid-cols-2">
+      {faqs.map((item) => (
+        <details class="group rounded-2xl border border-border bg-bg px-5 py-4 open:bg-surface open:shadow-sm">
+          <summary class="cursor-pointer list-none font-semibold text-ink flex items-center justify-between gap-3">
+            <span>{item.q}</span>
+            <span class="text-primary transition-transform group-open:rotate-45 text-xl leading-none" aria-hidden="true">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-ink-muted leading-relaxed">{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+</style>
