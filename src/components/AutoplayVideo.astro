@@ -1,0 +1,41 @@
+---
+import { publicExists } from '../lib/publicFile';
+
+interface Props {
+  /** Basename under /videos, e.g. `hero` → hero.webm / hero.mp4 / hero.jpg */
+  name: string;
+  fallback: string;
+  alt: string;
+  class?: string;
+  preload?: 'none' | 'metadata' | 'auto';
+}
+
+const { name, fallback, alt, class: className = '', preload = 'metadata' } = Astro.props;
+const mp4 = `/videos/${name}.mp4`;
+const webm = `/videos/${name}.webm`;
+const jpg = `/videos/${name}.jpg`;
+const hasMp4 = publicExists(mp4);
+const hasWebm = publicExists(webm);
+const poster = publicExists(jpg) ? jpg : fallback;
+const hasVideo = hasMp4 || hasWebm;
+---
+
+{
+  hasVideo ? (
+    <video
+      class={className}
+      autoplay
+      muted
+      loop
+      playsinline
+      preload={preload}
+      poster={poster}
+      aria-label={alt}
+    >
+      {hasWebm && <source src={webm} type="video/webm" />}
+      {hasMp4 && <source src={mp4} type="video/mp4" />}
+    </video>
+  ) : (
+    <img src={fallback} alt={alt} class={className} width="1280" height="720" />
+  )
+}

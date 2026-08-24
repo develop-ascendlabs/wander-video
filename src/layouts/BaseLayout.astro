@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { site, seo } from '../config/site';
+import { publicExists } from '../lib/publicFile';
 
 interface Props {
   title?: string;
@@ -11,12 +13,79 @@ interface Props {
 }
 
 const {
-  title = 'Wander — Create beautiful travel videos',
-  description = 'Turn routes into stunning animated travel videos in minutes. Perfect for sharing your adventures.',
+  title = seo.title,
+  description = seo.description,
   bare = false,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL('/images/stills/og.jpg', Astro.site).href;
+const heroVideoFile = publicExists('/videos/causeway.mp4')
+  ? '/videos/causeway.mp4'
+  : publicExists('/videos/hero.mp4')
+    ? '/videos/hero.mp4'
+    : undefined;
+const heroPosterFile = publicExists('/videos/causeway.jpg')
+  ? '/videos/causeway.jpg'
+  : '/videos/hero.jpg';
+const heroVideo = heroVideoFile ? new URL(heroVideoFile, Astro.site).href : undefined;
+
+const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION as
+  | string
+  | undefined;
+const cfWebAnalyticsToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN as
+  | string
+  | undefined;
+
+const softwareJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Wander',
+  applicationCategory: 'MultimediaApplication',
+  operatingSystem: 'Android',
+  url: site.url,
+  image: ogImage,
+  description,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'GBP',
+  },
+  installUrl: site.playStoreUrl,
+  downloadUrl: site.playStoreUrl,
+  featureList: [
+    'Paste Google Maps and Apple Maps links',
+    'Import GPX tracks',
+    '18 map styles',
+    'Animated 3D vehicles',
+    '1080p and 4K export',
+    'Instagram, TikTok, and YouTube aspect ratios',
+  ],
+};
+
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Wander',
+  url: site.url,
+  email: site.supportEmail,
+  logo: new URL('/images/app_icon.png', Astro.site).href,
+  sameAs: [site.playStoreUrl, site.social.instagram, site.social.tiktok, site.social.youtube],
+};
+
+const videoJsonLd = heroVideo
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'VideoObject',
+      name: 'Wander map video export',
+      description:
+        'A sample Wander export: the Causeway Coastal Route with a 3D car on a satellite map.',
+      thumbnailUrl: new URL(heroPosterFile, Astro.site).href,
+      contentUrl: heroVideo,
+      uploadDate: '2026-08-20',
+      isFamilyFriendly: true,
+    }
+  : undefined;
 ---
 
 <!doctype html>
@@ -25,24 +94,44 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
     <meta name="theme-color" content="#6C5CE7" />
+    {
+      googleSiteVerification && (
+        <meta name="google-site-verification" content={googleSiteVerification} />
+      )
+    }
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/png" href="/images/app_icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/images/favicon.png" />
     <link rel="apple-touch-icon" href="/images/app_icon.png" />
 
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
     <meta property="og:site_name" content="Wander" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL('/images/subscription_hero.png', Astro.site).href} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content="Wander export of the Causeway Coastal Route with a car on a satellite map" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL('/images/subscription_hero.png', Astro.site).href} />
+    <meta name="twitter:image" content={ogImage} />
 
     <title>{title}</title>
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(softwareJsonLd)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
+    {
+      videoJsonLd && (
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(videoJsonLd)} />
+      )
+    }
   </head>
   <body class="min-h-screen flex flex-col bg-bg text-ink">
     {!bare && <Header />}
@@ -50,5 +139,15 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
       <slot />
     </main>
     {!bare && <Footer />}
+    {
+      cfWebAnalyticsToken && (
+        <script
+          is:inline
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={JSON.stringify({ token: cfWebAnalyticsToken })}
+        />
+      )
+    }
   </body>
 </html>

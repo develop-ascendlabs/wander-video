@@ -1,17 +1,17 @@
 ---
 const audiences = [
-  { label: 'Travel Creators', icon: 'camera' },
-  { label: 'YouTubers', icon: 'play' },
+  { label: 'Travel videos', icon: 'camera' },
+  { label: 'YouTube', icon: 'play' },
   { label: 'TikTok', icon: 'tiktok' },
   { label: 'Instagram Reels', icon: 'ig' },
-  { label: 'Businesses', icon: 'briefcase' },
-  { label: 'Tourism Boards', icon: 'pin' },
+  { label: 'Road trips', icon: 'briefcase' },
+  { label: 'Flights', icon: 'pin' },
 ];
 ---
 
 <section class="py-12 md:py-16">
   <div class="container-site">
-    <p class="text-center text-sm font-semibold uppercase tracking-wider text-ink-soft">Perfect for</p>
+    <p class="text-center text-sm font-semibold uppercase tracking-wider text-ink-soft">Built for</p>
     <ul class="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
       {audiences.map((item) => (
         <li class="flex flex-col items-center gap-3 text-center">

@@ -1,19 +1,24 @@
 ---
+import AppScreenshot from './AppScreenshot.astro';
+
 const steps = [
   {
     title: 'Create your route',
     body: 'Paste a maps link, import GPX, or tap stops on the map.',
-    img: '/images/styles/topographic.png',
+    img: '/images/app/route-editor.png',
+    alt: 'Wander route editor with stops along the Garden Route in South Africa',
   },
   {
-    title: 'Choose your style',
-    body: 'Pick a cinematic map look and an animated vehicle.',
-    img: '/images/styles/golden_hour.png',
+    title: 'Choose a style and vehicle',
+    body: 'Pick from 18 map styles and an animated vehicle.',
+    img: '/images/app/style.png',
+    alt: 'Wander style picker with topographic, satellite, and glow settings',
   },
   {
     title: 'Export your video',
-    body: 'Export for Instagram, TikTok, YouTube — or full 4K.',
-    img: '/images/styles/midnight_drive.png',
+    body: '9:16 for Reels and TikTok, 1:1 square, or 16:9 landscape. 1080p, or 4K on Pro.',
+    img: '/images/app/export.png',
+    alt: 'Wander export screen with aspect ratio and resolution options',
   },
 ];
 ---
@@ -32,8 +37,10 @@ const steps = [
             ></div>
           )}
           <div class="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
-            <div class="aspect-[4/3] overflow-hidden">
-              <img src={step.img} alt="" class="h-full w-full object-cover" />
+            <div class="flex justify-center bg-ink px-6 pt-6">
+              <div class="w-full max-w-[220px] overflow-hidden rounded-xl aspect-[9/16]">
+                <AppScreenshot src={step.img} alt={step.alt} />
+              </div>
             </div>
             <div class="p-5">
               <p class="text-xs font-semibold uppercase tracking-wider text-primary">Step {i + 1}</p>

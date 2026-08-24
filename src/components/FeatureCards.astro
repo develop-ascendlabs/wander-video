@@ -1,30 +1,28 @@
 ---
+import AppScreenshot from './AppScreenshot.astro';
+
 const cards = [
   {
     n: '1',
     title: 'Create',
-    body: 'Build routes in seconds with our intuitive editor.',
-    visual: 'create',
+    body: 'Paste a maps link, import GPX, or tap stops on the map.',
+    img: '/images/app/projects.png',
+    alt: 'Wander projects screen with a Garden Route project card',
   },
   {
     n: '2',
     title: 'Style',
-    body: 'Choose from beautiful map styles.',
-    visual: 'style',
+    body: '18 map styles, including Golden Hour, Midnight Drive, Film, and satellite.',
+    img: '/images/app/style.png',
+    alt: 'Wander style picker with topographic, satellite, and glow settings',
   },
   {
     n: '3',
     title: 'Export',
-    body: 'Export high-quality videos ready to share anywhere.',
-    visual: 'export',
+    body: 'Export 1080p or 4K for Instagram, TikTok, and YouTube.',
+    img: '/images/app/export.png',
+    alt: 'Wander export screen with aspect ratio and resolution options',
   },
-];
-
-const styles = [
-  { name: 'Topographic', src: '/images/styles/topographic.png' },
-  { name: 'Golden Hour', src: '/images/styles/golden_hour.png' },
-  { name: 'Midnight', src: '/images/styles/midnight_drive.png' },
-  { name: 'Film', src: '/images/styles/film.png' },
 ];
 ---
 
@@ -39,44 +37,9 @@ const styles = [
         <p class="mt-2 text-sm text-ink-muted leading-relaxed">{card.body}</p>
 
         <div class="mt-5 overflow-hidden rounded-2xl border border-border bg-surface-muted">
-          {card.visual === 'create' && (
-            <div class="relative aspect-[4/3]">
-              <img src="/images/styles/nordic.png" alt="" class="h-full w-full object-cover" />
-              <svg class="absolute inset-0 h-full w-full" viewBox="0 0 320 240" fill="none" aria-hidden="true">
-                <path d="M40 180 L100 140 L160 150 L220 90 L280 70" stroke="#6C5CE7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                {[ [40,180], [100,140], [160,150], [220,90], [280,70] ].map(([x,y]) => (
-                  <circle cx={x} cy={y} r="8" fill="white" stroke="#6C5CE7" stroke-width="3" />
-                ))}
-              </svg>
-            </div>
-          )}
-
-          {card.visual === 'style' && (
-            <div class="grid grid-cols-2 gap-2 p-3">
-              {styles.map((s) => (
-                <div class="overflow-hidden rounded-xl">
-                  <img src={s.src} alt={s.name} class="aspect-square w-full object-cover" />
-                  <p class="bg-surface px-2 py-1 text-[10px] font-medium text-ink-muted">{s.name}</p>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {card.visual === 'export' && (
-            <div class="flex items-center justify-center gap-4 p-4">
-              <div class="w-28 rounded-[1.25rem] border-2 border-ink bg-ink p-1 shadow-lg">
-                <div class="overflow-hidden rounded-[1rem] bg-surface-muted aspect-[9/16]">
-                  <img src="/images/styles/satellite.png" alt="" class="h-full w-full object-cover" />
-                </div>
-              </div>
-              <ul class="space-y-2 text-xs font-semibold text-ink">
-                <li class="rounded-lg bg-primary px-3 py-2 text-white">4K Export</li>
-                <li class="rounded-lg bg-white px-3 py-2 border border-border">Instagram</li>
-                <li class="rounded-lg bg-white px-3 py-2 border border-border">TikTok</li>
-                <li class="rounded-lg bg-white px-3 py-2 border border-border">YouTube</li>
-              </ul>
-            </div>
-          )}
+          <div class="mx-auto w-full max-w-[200px] overflow-hidden rounded-xl aspect-[9/16]">
+            <AppScreenshot src={card.img} alt={card.alt} />
+          </div>
         </div>
       </article>
     ))}

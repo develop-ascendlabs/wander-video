@@ -70,6 +70,26 @@ Configured in [`src/config/site.ts`](src/config/site.ts):
 | `appStoreUrl` | Empty until iOS ships — badge shows “Coming soon” |
 | `supportEmail` | `support@wander.video` |
 
+## Analytics & Search Console
+
+### Cloudflare Web Analytics (recommended)
+
+One-click on Pages — no code required:
+
+1. Open [Pages → wander-video → Metrics](https://dash.cloudflare.com/33dabb8c111c10775b5a59e85d26b6c1/pages/view/wander-video)
+2. Under **Web Analytics**, click **Enable**
+3. Redeploy (or push a commit) so the beacon is injected
+
+Optional manual beacon: set `PUBLIC_CF_WEB_ANALYTICS_TOKEN` in Pages → Settings → Environment variables (production). Use this only if auto-inject is disabled.
+
+### Google Search Console
+
+1. Add a **Domain** property for `wander.video` at [Search Console](https://search.google.com/search-console)
+2. Prefer **DNS TXT** verification: add the `google-site-verification=…` record in Cloudflare DNS for `wander.video`
+3. After verification, submit `https://wander.video/sitemap-index.xml`
+
+URL-prefix alternative: set `PUBLIC_GOOGLE_SITE_VERIFICATION` to the meta-tag content Google shows, then rebuild/redeploy.
+
 ## Follow-ups
 
 - Point Flutter in-app legal links from `wander.app` to `https://wander.video/terms` and `/privacy` when ready.

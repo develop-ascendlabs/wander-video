@@ -1,43 +1,55 @@
 ---
+import { site, product } from '../config/site';
+
 const faqs = [
   {
     q: 'Do I need an account to use Wander?',
-    a: 'You can explore the app right away. An account helps you keep projects safe and unlock Pro purchases across devices.',
+    a: 'You can start creating immediately. An account keeps projects in cloud sync and restores Pro on a new phone.',
   },
   {
     q: 'Can I import GPX files?',
-    a: 'Yes. Import a GPX from your hike, ride, or road trip and Wander will build a route you can style and export.',
-  },
-  {
-    q: 'Which platforms can I share to?',
-    a: 'Export aspect ratios for Instagram Reels, TikTok, YouTube, and landscape video — then share anywhere.',
-  },
-  {
-    q: 'What is included in Wander Free?',
-    a: 'Free includes up to 5 projects, 1080p export with a watermark, two map styles, and three vehicles (car, plane, bicycle).',
-  },
-  {
-    q: 'What do I get with Wander Pro?',
-    a: 'Pro unlocks 4K export, all map styles and vehicles, no watermark, unlimited projects, and early access to new features. £4.99/month or £24.99/year.',
-  },
-  {
-    q: 'Is Wander available on iPhone?',
-    a: 'Wander is on Google Play today. An App Store release is coming soon — watch this space.',
+    a: 'Yes. Import a GPX from your hike, ride, or road trip and Wander builds a route you can style and export.',
   },
   {
     q: 'Can I paste Google Maps or Apple Maps links?',
-    a: 'Yes. Paste a directions link and Wander will turn it into an editable route.',
+    a: 'Yes. Paste a directions link and Wander turns it into an editable route.',
+  },
+  {
+    q: 'Which video formats can I export?',
+    a: '9:16 for TikTok, Reels, and Shorts; 1:1 square; and 16:9 landscape. Free is 1080p with a watermark. Pro is 4K with no watermark.',
+  },
+  {
+    q: 'What is included in Wander Free?',
+    a: `Free includes all ${product.styleCount} map styles, ${product.freeVehicles}, ${product.freeProjects} projects, ${product.freeStops} stops per project, 1080p export with a watermark, and cloud sync when you sign in.`,
+  },
+  {
+    q: 'What do I get with Wander Pro?',
+    a: `Pro adds 4K export, no watermark, unlimited projects, and extra vehicles (${product.proVehicles}). ${product.proMonthly}/month or ${product.proYearly}/year.`,
+  },
+  {
+    q: 'Is Wander available on iPhone?',
+    a: 'Wander is on Google Play for Android. There is no iPhone app yet.',
   },
   {
     q: 'How do I get help?',
-    a: 'Visit the Help page or email support@wander.video and we’ll get back to you.',
+    a: `Visit the Help page or email ${site.supportEmail}.`,
   },
 ];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
 ---
 
 <section id="faq" class="scroll-mt-20 py-16 md:py-24 bg-surface">
   <div class="container-site">
-    <h2 class="text-center text-3xl font-bold tracking-tight text-ink md:text-4xl">Frequently asked questions</h2>
+    <h2 class="text-center text-3xl font-bold tracking-tight text-ink md:text-4xl">Questions</h2>
 
     <div class="mx-auto mt-12 grid max-w-5xl gap-4 md:grid-cols-2">
       {faqs.map((item) => (
@@ -52,6 +64,8 @@ const faqs = [
     </div>
   </div>
 </section>
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
 <style>
   details summary::-webkit-details-marker {

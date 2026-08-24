@@ -1,68 +1,45 @@
 ---
 import StoreBadges from './StoreBadges.astro';
+import AutoplayVideo from './AutoplayVideo.astro';
 ---
 
 <section class="relative overflow-hidden pt-12 pb-16 md:pt-20 md:pb-24">
   <div class="container-site grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
     <div class="max-w-xl">
-      <h1 class="text-4xl font-bold tracking-tight text-ink sm:text-5xl lg:text-[3.25rem] lg:leading-[1.1]">
-        Create beautiful travel videos.
+      <p class="text-sm font-semibold uppercase tracking-wider text-primary">Android travel video app</p>
+      <h1 class="mt-3 text-4xl font-bold tracking-tight text-ink sm:text-5xl lg:text-[3.25rem] lg:leading-[1.1]">
+        Make a map video from a route.
       </h1>
       <p class="mt-5 text-lg text-ink-muted leading-relaxed">
-        Turn routes into stunning animated travel videos in minutes. Perfect for sharing your adventures.
+        Paste a Google Maps link, import a GPX, or tap stops on the map. Wander animates a vehicle along the path. Export 1080p with a watermark, or 4K without one, for Instagram, TikTok, and YouTube.
       </p>
 
       <div class="mt-8">
         <StoreBadges />
       </div>
 
-      <div class="mt-6 flex items-center gap-2 text-sm text-ink-muted">
-        <div class="flex text-pro-gold" aria-hidden="true">
-          {Array.from({ length: 5 }).map(() => (
-            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9.05 2.89c.38-.9 1.52-.9 1.9 0l1.52 3.62a1 1 0 0 0 .84.61l3.93.33c.97.08 1.36 1.28.62 1.91l-3 2.55a1 1 0 0 0-.32 1l.9 3.82c.22.95-.8 1.68-1.63 1.17l-3.35-2.07a1 1 0 0 0-1.04 0L6.67 18.9c-.83.51-1.85-.22-1.63-1.17l.9-3.82a1 1 0 0 0-.32-1l-3-2.55c-.74-.63-.35-1.83.62-1.91l3.93-.33a1 1 0 0 0 .84-.61l1.52-3.62z" />
-            </svg>
-          ))}
-        </div>
-        <span>Loved by creators worldwide.</span>
-      </div>
+      <p class="mt-6 text-sm text-ink-muted">
+        Free on Google Play. iPhone is not out yet.
+      </p>
     </div>
 
-    <div class="relative">
-      <div class="relative overflow-hidden rounded-3xl border border-border bg-surface shadow-xl shadow-primary/10 aspect-[4/3]">
-        <img
-          src="/images/styles/topographic.png"
-          alt="Animated topographic travel map with route"
-          class="h-full w-full object-cover"
-          width="960"
-          height="720"
-        />
-        <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/35 via-transparent to-transparent"></div>
-
-        <!-- Route path overlay -->
-        <svg class="absolute inset-0 h-full w-full" viewBox="0 0 400 300" fill="none" aria-hidden="true">
-          <path
-            d="M60 220 C 120 180, 140 120, 200 110 S 300 90, 340 60"
-            stroke="#6C5CE7"
-            stroke-width="3"
-            stroke-dasharray="8 6"
-            stroke-linecap="round"
+    <div class="relative mx-auto w-full max-w-[280px] sm:max-w-[320px] lg:mx-0 lg:justify-self-end">
+      <div class="rounded-[2rem] border-[3px] border-ink bg-ink p-2 shadow-2xl shadow-primary/20">
+        <div class="relative overflow-hidden rounded-[1.5rem] aspect-[9/16] bg-surface">
+          <AutoplayVideo
+            name="causeway"
+            fallback="/images/stills/causeway.jpg"
+            alt="Wander export of the Causeway Coastal Route in Northern Ireland"
+            class="h-full w-full object-cover"
           />
-          <circle cx="60" cy="220" r="7" fill="#6C5CE7" />
-          <circle cx="340" cy="60" r="7" fill="#6C5CE7" />
-        </svg>
-
-        <div class="absolute bottom-4 left-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/95 shadow-lg">
-          <svg class="ml-0.5 h-5 w-5 text-primary" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M8 5.14v13.72a1 1 0 0 0 1.55.83l10.4-6.86a1 1 0 0 0 0-1.66L9.55 4.31A1 1 0 0 0 8 5.14z" />
-          </svg>
-          <span class="sr-only">Preview video</span>
-        </div>
-
-        <div class="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-ink shadow-sm">
-          Reykjavík
+          <div class="absolute top-3 right-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-ink shadow-sm">
+            9:16
+          </div>
         </div>
       </div>
+      <p class="mt-3 text-center text-sm text-ink-muted">
+        Causeway Coastal Route. Free export, so it has a watermark.
+      </p>
     </div>
   </div>
 </section>
