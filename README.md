@@ -55,9 +55,11 @@ npm run pages:dev
 src/
   components/   # landing sections, header, footer
   config/site.ts
-  layouts/BaseLayout.astro
-  pages/        # /, /blog, /help, /terms, /privacy
+  content/      # markdown collections (blog, routes)
+  layouts/      # BaseLayout, ArticleLayout
+  pages/        # /, /blog, /routes, /help, /terms, /privacy
 public/images/  # logo, icon, style previews, hero art
+public/videos/  # Wander exports used on the homepage and in posts
 ```
 
 ## Store links
@@ -94,5 +96,5 @@ URL-prefix alternative: set `PUBLIC_GOOGLE_SITE_VERIFICATION` to the meta-tag co
 
 - Point Flutter in-app legal links from `wander.app` to `https://wander.video/terms` and `/privacy` when ready.
 - Replace App Store placeholder once the listing is live.
-- Add real Blog / Help articles when content is ready.
+- Add route landing pages when a dedicated export exists (Dalmatian Coast first: Split → Hvar → Dubrovnik). Mirror the blog collection in `src/content.config.ts`, put markdown in `src/content/routes/`, and add `src/pages/routes/[...slug].astro` using `ArticleLayout`. Frontmatter is the same as a blog post, plus `region` and `waypoints`.
 - These Terms and Privacy pages are starter copy — have them reviewed before relying on them for store compliance.

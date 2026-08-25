@@ -1,20 +1,63 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { site } from '../../config/site';
+
+const guides = [
+  {
+    href: '/blog/how-to-make-a-route-animation-for-tiktok',
+    title: 'How to make a route animation for TikTok',
+    body: '9:16 export, duration, captions, and what not to do.',
+  },
+  {
+    href: '/blog/google-maps-to-video-app',
+    title: 'Google Maps to video',
+    body: 'Paste a directions link and export an animated map.',
+  },
+  {
+    href: '/blog/road-trip-map-animation-maker',
+    title: 'Road trip map animation maker',
+    body: 'GPX or Maps, car or campervan, 1080p or 4K.',
+  },
+];
 ---
 
 <BaseLayout
   title="Help: Wander"
-  description="Help for Wander: GPX import, map styles, 4K export, and Google Play. Email hello@wander.video."
+  description="Help for Wander: GPX import, map styles, 4K export, Google Maps paste, and TikTok exports. Email hello@wander.video."
 >
   <section class="py-16 md:py-24">
     <div class="container-site max-w-3xl">
       <p class="text-sm font-semibold uppercase tracking-wider text-primary">Help</p>
       <h1 class="mt-2 text-4xl font-bold tracking-tight text-ink">Help</h1>
       <p class="mt-4 text-lg text-ink-muted leading-relaxed">
-        There is no full help centre yet. Use the questions on the homepage, or email
-        {site.supportEmail}.
+        Start with a guide, the questions on the homepage, or email {site.supportEmail}.
       </p>
+
+      <h2 class="mt-12 text-xl font-bold text-ink">Guides</h2>
+      <ul class="mt-4 grid gap-4 sm:grid-cols-2">
+        {
+          guides.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="block h-full rounded-2xl border border-border bg-surface p-6 hover:border-primary/40 transition-colors"
+              >
+                <h3 class="font-semibold text-ink">{item.title}</h3>
+                <p class="mt-2 text-sm text-ink-muted">{item.body}</p>
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a
+            href="/routes"
+            class="block h-full rounded-2xl border border-border bg-surface p-6 hover:border-primary/40 transition-colors"
+          >
+            <h3 class="font-semibold text-ink">Famous route videos</h3>
+            <p class="mt-2 text-sm text-ink-muted">Dalmatian Coast first, then more itineraries.</p>
+          </a>
+        </li>
+      </ul>
 
       <div class="mt-10 grid gap-4 sm:grid-cols-2">
         <a

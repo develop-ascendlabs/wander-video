@@ -1,24 +1,74 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getBlogPosts, formatDate } from '../../lib/content';
+import { publicExists } from '../../lib/publicFile';
+
+const posts = await getBlogPosts();
 ---
 
 <BaseLayout
-  title="Blog: Wander"
-  description="Wander product notes and GPX tips. No posts yet."
+  title="Guides: turn a route into a map video · Wander"
+  description="How to make a route animation for TikTok, turn a Google Maps link into a video, and make a road trip map animation. Each guide has a Wander export."
 >
   <section class="py-16 md:py-24">
     <div class="container-site max-w-3xl">
       <p class="text-sm font-semibold uppercase tracking-wider text-primary">Blog</p>
-      <h1 class="mt-2 text-4xl font-bold tracking-tight text-ink">Coming soon</h1>
+      <h1 class="mt-2 text-4xl font-bold tracking-tight text-ink">Guides</h1>
       <p class="mt-4 text-lg text-ink-muted leading-relaxed">
-        No posts yet. We will put product notes here when we have them.
+        How to turn a route into a video. Each guide has a Wander export on the page.
       </p>
 
-      <div class="mt-12 rounded-2xl border border-dashed border-border bg-surface p-8 text-center">
-        <p class="text-ink-muted">Empty for now.</p>
-      </div>
+      <ul class="mt-12 space-y-6">
+        {
+          posts.map((post) => {
+            const poster = publicExists(`/videos/${post.data.video}.jpg`)
+              ? `/videos/${post.data.video}.jpg`
+              : '/images/stills/og.jpg';
+            return (
+              <li>
+                <a
+                  href={`/blog/${post.id}`}
+                  class="group grid gap-5 rounded-2xl border border-border bg-surface p-4 sm:grid-cols-[10rem_1fr] sm:p-5 hover:border-primary/40 transition-colors"
+                >
+                  <div
+                    class:list={[
+                      'overflow-hidden rounded-xl bg-ink',
+                      post.data.aspect === 'vertical' ? 'aspect-[9/16] max-w-[10rem]' : 'aspect-video',
+                    ]}
+                  >
+                    <img
+                      src={poster}
+                      alt={post.data.videoAlt}
+                      class="h-full w-full object-cover"
+                      width={post.data.aspect === 'vertical' ? 360 : 640}
+                      height={post.data.aspect === 'vertical' ? 640 : 360}
+                    />
+                  </div>
+                  <div class="min-w-0">
+                    <p class="text-xs font-semibold uppercase tracking-wider text-primary">
+                      {formatDate(post.data.pubDate)}
+                    </p>
+                    <h2 class="mt-1 text-xl font-bold text-ink group-hover:text-primary transition-colors">
+                      {post.data.title}
+                    </h2>
+                    <p class="mt-2 text-sm text-ink-muted leading-relaxed">{post.data.description}</p>
+                  </div>
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
 
-      <p class="mt-8">
+      <p class="mt-12 text-sm text-ink-muted">
+        Famous itineraries will go on the
+        <a href="/routes" class="font-semibold text-primary hover:text-primary-dark">
+          routes
+        </a>
+        page. Dalmatian Coast first, once we have that export.
+      </p>
+
+      <p class="mt-6">
         <a href="/" class="text-sm font-semibold text-primary hover:text-primary-dark">← Back to home</a>
       </p>
     </div>

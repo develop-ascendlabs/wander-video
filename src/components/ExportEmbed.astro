@@ -1,0 +1,44 @@
+---
+import AutoplayVideo from './AutoplayVideo.astro';
+
+interface Props {
+  name: string;
+  alt: string;
+  caption: string;
+  aspect?: 'vertical' | 'landscape';
+}
+
+const { name, alt, caption, aspect = 'vertical' } = Astro.props;
+const fallback = `/videos/${name}.jpg`;
+---
+
+<figure class="my-8">
+  {
+    aspect === 'vertical' ? (
+      <div class="mx-auto w-full max-w-[240px] sm:max-w-[280px]">
+        <div class="rounded-[2rem] border-[3px] border-ink bg-ink p-2 shadow-xl shadow-ink/15">
+          <div class="overflow-hidden rounded-[1.5rem] aspect-[9/16] bg-surface">
+            <AutoplayVideo
+              name={name}
+              fallback={fallback}
+              alt={alt}
+              class="h-full w-full object-cover"
+            />
+          </div>
+        </div>
+      </div>
+    ) : (
+      <div class="overflow-hidden rounded-2xl border border-border bg-ink shadow-sm">
+        <div class="aspect-video">
+          <AutoplayVideo
+            name={name}
+            fallback={fallback}
+            alt={alt}
+            class="h-full w-full object-cover"
+          />
+        </div>
+      </div>
+    )
+  }
+  <figcaption class="mt-3 text-center text-sm text-ink-muted">{caption}</figcaption>
+</figure>

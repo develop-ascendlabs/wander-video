@@ -1,0 +1,160 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ExportEmbed from '../components/ExportEmbed.astro';
+import StoreBadges from '../components/StoreBadges.astro';
+import { site } from '../config/site';
+import { formatDate } from '../lib/content';
+import { publicExists } from '../lib/publicFile';
+
+interface Related {
+  href: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  video: string;
+  videoAlt: string;
+  videoCaption: string;
+  aspect?: 'vertical' | 'landscape';
+  eyebrow?: string;
+  parentHref?: string;
+  parentLabel?: string;
+  related?: Related[];
+}
+
+const {
+  title,
+  description,
+  pubDate,
+  video,
+  videoAlt,
+  videoCaption,
+  aspect = 'vertical',
+  eyebrow = 'Guide',
+  parentHref = '/blog',
+  parentLabel = 'Guides',
+  related = [],
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const posterPath = publicExists(`/videos/${video}.jpg`)
+  ? `/videos/${video}.jpg`
+  : '/images/stills/og.jpg';
+const videoPath = publicExists(`/videos/${video}.mp4`)
+  ? `/videos/${video}.mp4`
+  : undefined;
+
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: pubDate.toISOString(),
+  mainEntityOfPage: canonical,
+  image: new URL(posterPath, Astro.site).href,
+  author: { '@type': 'Organization', name: site.name, url: site.url },
+  publisher: {
+    '@type': 'Organization',
+    name: site.name,
+    url: site.url,
+    logo: { '@type': 'ImageObject', url: new URL('/images/app_icon.png', Astro.site).href },
+  },
+};
+
+const videoJsonLd = videoPath
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'VideoObject',
+      name: title,
+      description: videoAlt,
+      thumbnailUrl: new URL(posterPath, Astro.site).href,
+      contentUrl: new URL(videoPath, Astro.site).href,
+      uploadDate: pubDate.toISOString(),
+      isFamilyFriendly: true,
+    }
+  : undefined;
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+    { '@type': 'ListItem', position: 2, name: parentLabel, item: new URL(parentHref, Astro.site).href },
+    { '@type': 'ListItem', position: 3, name: title, item: canonical },
+  ],
+};
+
+const jsonLd = [articleJsonLd, breadcrumbJsonLd, ...(videoJsonLd ? [videoJsonLd] : [])];
+---
+
+<BaseLayout
+  title={`${title} · Wander`}
+  description={description}
+  ogType="article"
+  ogImagePath={posterPath}
+  ogImageAlt={videoAlt}
+  publishedTime={pubDate}
+  jsonLd={jsonLd}
+>
+  <article class="py-12 md:py-20">
+    <div class="container-site max-w-3xl">
+      <p class="text-sm font-semibold uppercase tracking-wider text-primary">{eyebrow}</p>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl md:text-[2.5rem] md:leading-[1.15]">
+        {title}
+      </h1>
+      <p class="mt-3 text-sm text-ink-soft">{formatDate(pubDate)}</p>
+      <p class="mt-5 text-lg text-ink-muted leading-relaxed">{description}</p>
+
+      <ExportEmbed name={video} alt={videoAlt} caption={videoCaption} aspect={aspect} />
+
+      <div class="mt-2 mb-10">
+        <StoreBadges />
+      </div>
+
+      <div class="prose-article">
+        <slot />
+      </div>
+
+      <div class="mt-12 rounded-3xl bg-primary-soft px-6 py-8 text-center md:px-10">
+        <h2 class="text-2xl font-bold tracking-tight text-ink">Export a video from a route.</h2>
+        <p class="mx-auto mt-2 max-w-md text-ink-muted">
+          Free on Google Play. iPhone coming soon.
+        </p>
+        <div class="mt-6 flex justify-center">
+          <StoreBadges />
+        </div>
+      </div>
+
+      {
+        related.length > 0 && (
+          <nav class="mt-14" aria-label="More guides">
+            <h2 class="text-xl font-bold text-ink">More guides</h2>
+            <ul class="mt-4 grid gap-4 sm:grid-cols-2">
+              {related.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    class="block rounded-2xl border border-border bg-surface p-5 hover:border-primary/40 transition-colors h-full"
+                  >
+                    <h3 class="font-semibold text-ink">{item.title}</h3>
+                    <p class="mt-2 text-sm text-ink-muted leading-relaxed">{item.description}</p>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )
+      }
+
+      <p class="mt-10">
+        <a href="/blog" class="text-sm font-semibold text-primary hover:text-primary-dark">
+          ← All guides
+        </a>
+      </p>
+    </div>
+  </article>
+</BaseLayout>

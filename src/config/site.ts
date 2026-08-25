@@ -9,7 +9,7 @@ export const site = {
   appStoreUrl: '' as string,
   social: {
     instagram: 'https://instagram.com/wander.video',
-    tiktok: 'https://tiktok.com/@wander.video',
+    tiktok: 'https://www.tiktok.com/@wandervideoapp',
     youtube: 'https://youtube.com/@wander.video',
   },
 } as const;

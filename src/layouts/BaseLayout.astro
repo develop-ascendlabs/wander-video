@@ -10,16 +10,27 @@ interface Props {
   description?: string;
   /** Hide marketing chrome (rare). */
   bare?: boolean;
+  ogType?: 'website' | 'article';
+  /** Site-absolute path, e.g. /videos/causeway.jpg */
+  ogImagePath?: string;
+  ogImageAlt?: string;
+  publishedTime?: Date;
+  jsonLd?: Record<string, unknown>[];
 }
 
 const {
   title = seo.title,
   description = seo.description,
   bare = false,
+  ogType = 'website',
+  ogImagePath = '/images/stills/og.jpg',
+  ogImageAlt = 'Wander export of the Causeway Coastal Route with a car on a satellite map',
+  publishedTime,
+  jsonLd = [],
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
-const ogImage = new URL('/images/stills/og.jpg', Astro.site).href;
+const ogImage = new URL(ogImagePath, Astro.site).href;
 const heroVideoFile = publicExists('/videos/causeway.mp4')
   ? '/videos/causeway.mp4'
   : publicExists('/videos/hero.mp4')
@@ -73,19 +84,21 @@ const orgJsonLd = {
   sameAs: [site.playStoreUrl, site.social.instagram, site.social.tiktok, site.social.youtube],
 };
 
-const videoJsonLd = heroVideo
-  ? {
-      '@context': 'https://schema.org',
-      '@type': 'VideoObject',
-      name: 'Wander map video export',
-      description:
-        'A sample Wander export: the Causeway Coastal Route with a 3D car on a satellite map.',
-      thumbnailUrl: new URL(heroPosterFile, Astro.site).href,
-      contentUrl: heroVideo,
-      uploadDate: '2026-08-20',
-      isFamilyFriendly: true,
-    }
-  : undefined;
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
+const videoJsonLd =
+  isHome && heroVideo
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'VideoObject',
+        name: 'Wander map video export',
+        description:
+          'A sample Wander export: the Causeway Coastal Route with a 3D car on a satellite map.',
+        thumbnailUrl: new URL(heroPosterFile, Astro.site).href,
+        contentUrl: heroVideo,
+        uploadDate: '2026-08-20',
+        isFamilyFriendly: true,
+      }
+    : undefined;
 ---
 
 <!doctype html>
@@ -109,14 +122,19 @@ const videoJsonLd = heroVideo
     <link rel="icon" type="image/png" sizes="512x512" href="/images/favicon.png" />
     <link rel="apple-touch-icon" href="/images/app_icon.png" />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:site_name" content="Wander" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:image:alt" content="Wander export of the Causeway Coastal Route with a car on a satellite map" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    {
+      publishedTime && (
+        <meta property="article:published_time" content={publishedTime.toISOString()} />
+      )
+    }
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
@@ -131,6 +149,11 @@ const videoJsonLd = heroVideo
       videoJsonLd && (
         <script is:inline type="application/ld+json" set:html={JSON.stringify(videoJsonLd)} />
       )
+    }
+    {
+      jsonLd.map((block) => (
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(block)} />
+      ))
     }
   </head>
   <body class="min-h-screen flex flex-col bg-bg text-ink">
